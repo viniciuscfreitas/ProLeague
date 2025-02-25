@@ -4,7 +4,6 @@ main: me.freitas.proleague.ProLeagueEssencial
 author: Freitas
 description: Plugin oficial do servidor ProLeagueEssencial.
 website: https://seusite.com
-api-version: 1.5.2
 
 commands:
   # Comandos Gerais
@@ -95,11 +94,6 @@ commands:
     description: Recusa um pedido de teleporte.
     usage: /tpdeny
     permission: proleague.tpdeny
-
-  back:
-    description: Retorna para a última localização antes de morrer ou teleportar.
-    usage: /back
-    permission: proleague.back
 
   # Comandos de Modos de Jogo
   gm:

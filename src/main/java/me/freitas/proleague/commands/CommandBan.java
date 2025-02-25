@@ -1,6 +1,7 @@
 package me.freitas.proleague.commands;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -13,19 +14,16 @@ public class CommandBan implements CommandExecutor {
             sender.sendMessage("§cVocê não tem permissão para usar este comando.");
             return true;
         }
-
         if (args.length < 1) {
             sender.sendMessage("§cUso correto: /ban <jogador> [motivo]");
             return true;
         }
-
         Player target = Bukkit.getPlayer(args[0]);
         if (target == null) {
             sender.sendMessage("§cJogador não encontrado.");
             return true;
         }
-
-        // Concatenação manual do motivo, compatível com Java 7
+        // Concatenação manual do motivo
         StringBuilder reason = new StringBuilder("Sem motivo especificado");
         if (args.length > 1) {
             reason = new StringBuilder();
@@ -33,11 +31,9 @@ public class CommandBan implements CommandExecutor {
                 reason.append(args[i]).append(" ");
             }
         }
-
         target.setBanned(true);
         target.kickPlayer("§cVocê foi banido do servidor.\n§eMotivo: " + reason.toString().trim());
         sender.sendMessage("§aJogador " + target.getName() + " foi banido com sucesso!");
-
         return true;
     }
 }

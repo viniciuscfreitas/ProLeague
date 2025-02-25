@@ -47,23 +47,68 @@ public class ProLeagueEssencial extends JavaPlugin {
     }
 
     private void registerCommands() {
-        registerCommand("setspawn", new CommandSpawn(this));
-        registerCommand("spawn", new CommandSpawn(this));
-        registerCommand("sethome", new CommandHome(this));
-        registerCommand("home", new CommandHome(this));
-        registerCommand("delhome", new CommandHome(this));
-        registerCommand("listhomes", new CommandHome(this));
-        registerCommand("setwarp", new CommandWarp(this));
-        registerCommand("warp", new CommandWarp(this));
-        registerCommand("delwarp", new CommandWarp(this));
-        registerCommand("warps", new CommandWarp(this));
-        registerCommand("freeze", new CommandFreeze(this));
-        registerCommand("unfreeze", new CommandUnfreeze(this));
-        registerCommand("mute", new CommandMute(this));
-        registerCommand("unmute", new CommandUnmute(this));
-        registerCommand("warn", new CommandWarn(this));
-        registerCommand("banip", new CommandBanIP(this));
-        registerCommand("unbanip", new CommandUnbanIP(this));
+        // Crie um array de pares comando/instância.
+        Object[][] comandos = new Object[][] {
+                { "setspawn", new CommandSpawn(this) },
+                { "spawn", new CommandSpawn(this) },
+                { "sethome", new CommandHome(this) },
+                { "home", new CommandHome(this) },
+                { "delhome", new CommandHome(this) },
+                { "listhomes", new CommandHome(this) },
+                { "setwarp", new CommandWarp(this) },
+                { "warp", new CommandWarp(this) },
+                { "delwarp", new CommandWarp(this) },
+                { "warps", new CommandWarp(this) },
+                { "tp", new CommandTeleport(this) },
+                { "tpa", new CommandTeleport(this) },
+                { "tpaccept", new CommandTeleport(this) },
+                { "tpdeny", new CommandTeleport(this) },
+                { "back", new CommandBack() },
+                { "gm", new CommandGamemode() },
+                { "day", new CommandTime() },
+                { "night", new CommandTime() },
+                { "ping", new CommandPing() },
+                { "horario", new CommandHorario() },
+                { "suicide", new CommandSuicide() },
+                { "reloadconfig", new CommandReloadConfig(this) },
+                { "fly", new CommandFly() },
+                { "god", new CommandGod() },
+                { "heal", new CommandHeal() },
+                { "speed", new CommandSpeed() },
+                { "sudo", new CommandSudo() },
+                { "info", new CommandInfo() },
+                { "motd", new CommandMotd(this) },
+                { "hat", new CommandHat() },
+                { "feed", new CommandFeed() },
+                { "anvil", new CommandAnvil() },
+                { "enderchest", new CommandEnderChest() },
+                { "reparar", new CommandReparar() },
+                { "broadcast", new CommandBroadcast() },
+                { "encantar", new CommandEncantar() },
+                { "ext", new CommandExt() },
+                { "freeze", new CommandFreeze(this) },
+                { "unfreeze", new CommandUnfreeze(this) },
+                { "warn", new CommandWarn(this) },
+                { "history", new CommandHistory(this) },
+                { "mute", new CommandMute(this) },
+                { "unmute", new CommandUnmute(this) },
+                { "clearchat", new CommandClearChat() },
+                { "banip", new CommandBanIP(this) },
+                { "unbanip", new CommandUnbanIP(this) },
+                { "rain", new CommandWeather("rain") },
+                { "sun", new CommandWeather("clear") },
+                { "thunder", new CommandWeather("thunder") },
+                { "kick", new CommandKick() },
+                { "ban", new CommandBan() },
+                { "unban", new CommandUnban() },
+                { "vanish", new CommandVanish() },
+        };
+
+        for (Object[] par : comandos) {
+            String comando = (String) par[0];
+            Object executor = par[1];
+            registerCommand(comando, executor);
+        }
     }
 
     private void registerListeners() {

@@ -1,20 +1,22 @@
 package me.freitas.proleague.listeners;
 
 import me.freitas.proleague.ProLeagueEssencial;
-import me.freitas.proleague.commands.CommandMute;
-import me.freitas.proleague.commands.CommandFreeze;
-import me.freitas.proleague.commands.CommandBack;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.entity.Player;
+import me.freitas.proleague.commands.CommandBack;
+import me.freitas.proleague.commands.CommandFreeze;
+import me.freitas.proleague.commands.CommandMute;
 
 public class PlayerListener implements Listener {
+
     private final ProLeagueEssencial plugin;
 
+    // Atualize o construtor para receber o plugin
     public PlayerListener(ProLeagueEssencial plugin) {
         this.plugin = plugin;
     }
@@ -34,7 +36,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
-        if (plugin.getFrozenPlayers().contains(player.getName())) {
+        if (CommandFreeze.isFrozen(plugin, player)) {
             event.setCancelled(true);
         }
     }
@@ -42,7 +44,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
-        if (plugin.getMutedPlayers().contains(player.getName())) {
+        if (CommandMute.isMuted(plugin, player)) {
             player.sendMessage("§c⚠ Você está mutado e não pode falar no chat.");
             event.setCancelled(true);
         }
