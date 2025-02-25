@@ -179,11 +179,6 @@ commands:
     usage: /unban <jogador>
     permission: proleague.admin
 
-  hat:
-    description: Coloca o item da mão na cabeça.
-    usage: /hat
-    permission: proleague.hat
-
   feed:
     description: Restaura a fome do jogador.
     usage: /feed [jogador]
@@ -278,3 +273,28 @@ commands:
     description: Desbane um IP.
     usage: /unbanip <ip>
     permission: proleague.admin
+
+  tphere:
+    description: Teleporta um jogador até você.
+    usage: /tphere <jogador>
+    permission: proleague.tphere
+
+  nick:
+    description: Define um apelido personalizado.
+    usage: /nick <novo_nome>
+    permission: proleague.nick
+
+  realname:
+    description: Mostra o nome real de um jogador com apelido.
+    usage: /realname <jogador>
+    permission: proleague.realname
+
+  invsee:
+    description: Abre o inventário de outro jogador.
+    usage: /invsee <jogador>
+    permission: proleague.invsee
+
+  hat:
+    description: Coloca ou remove um item na cabeça.
+    usage: /hat
+    permission: proleague.hat

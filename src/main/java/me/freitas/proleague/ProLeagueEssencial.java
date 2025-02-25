@@ -102,6 +102,10 @@ public class ProLeagueEssencial extends JavaPlugin {
                 { "ban", new CommandBan() },
                 { "unban", new CommandUnban() },
                 { "vanish", new CommandVanish() },
+                { "invsee", new CommandInvsee() },
+                { "tphere", new CommandTphere() },
+                { "nick", new CommandNick() },
+                { "realname", new CommandRealName() },
         };
 
         for (Object[] par : comandos) {

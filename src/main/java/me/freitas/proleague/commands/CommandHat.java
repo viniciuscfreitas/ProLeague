@@ -8,25 +8,34 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class CommandHat implements CommandExecutor {
+
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage("§cApenas jogadores podem usar esse comando.");
+            sender.sendMessage("§cApenas jogadores podem usar este comando.");
             return true;
         }
 
         Player player = (Player) sender;
-        ItemStack itemInHand = player.getItemInHand();
-
-        if (itemInHand.getType() == Material.AIR) {
-            player.sendMessage("§cVocê precisa estar segurando um item para usá-lo como chapéu.");
+        if (!player.hasPermission("proleague.hat")) {
+            player.sendMessage("§cVocê não tem permissão para usar este comando.");
             return true;
         }
 
+        ItemStack handItem = player.getInventory().getItemInHand();
         ItemStack helmet = player.getInventory().getHelmet();
-        player.getInventory().setHelmet(itemInHand);
-        player.setItemInHand(helmet);
-        player.sendMessage("§aItem definido como chapéu!");
+
+        if (handItem.getType() == Material.AIR && helmet != null) {
+            player.getInventory().setItemInHand(helmet);
+            player.getInventory().setHelmet(null);
+            player.sendMessage("§aVocê removeu seu chapéu.");
+        } else if (handItem.getType() != Material.AIR) {
+            player.getInventory().setHelmet(handItem);
+            player.getInventory().setItemInHand(null);
+            player.sendMessage("§aVocê colocou " + handItem.getType() + " na cabeça!");
+        } else {
+            player.sendMessage("§cVocê precisa segurar um item para usar /hat!");
+        }
 
         return true;
     }
