@@ -1,0 +1,3 @@
+settings:
+  debug-mode: false
+  mensagem-de-boas-vindas: "&aBem-vindo ao servidor, &e{player}&a! Divirta-se!"
