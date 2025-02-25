@@ -298,3 +298,38 @@ commands:
     description: Coloca ou remove um item na cabeça.
     usage: /hat
     permission: proleague.hat
+
+  invsee:
+    description: Permite visualizar e editar o inventário de um jogador.
+    usage: /invsee <jogador>
+    permission: proleague.invsee
+
+  clearinventory:
+    description: Limpa o inventário de um jogador.
+    usage: /clearinventory [jogador]
+    permission: proleague.clearinventory
+
+  tpall:
+    description: Teleporta todos os jogadores até você.
+    usage: /tpall
+    permission: proleague.tpall
+
+  keepxp:
+    description: Mantém a experiência após a morte.
+    usage: /keepxp <on/off>
+    permission: proleague.keepxp
+
+  keeplevel:
+    description: Mantém os níveis de XP após a morte.
+    usage: /keeplevel <on/off>
+    permission: proleague.keeplevel
+
+  keepinventory:
+    description: Mantém os itens no inventário após a morte.
+    usage: /keepinventory <on/off>
+    permission: proleague.keepinventory
+
+  deathpoint:
+    description: Mostra a última localização da morte.
+    usage: /deathpoint
+    permission: proleague.deathpoint

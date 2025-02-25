@@ -106,6 +106,11 @@ public class ProLeagueEssencial extends JavaPlugin {
                 { "tphere", new CommandTphere() },
                 { "nick", new CommandNick() },
                 { "realname", new CommandRealName() },
+                { "clearinventory", new CommandClearInventory() },
+                { "tpall", new CommandTpAll() },
+                { "keepxp", new CommandKeepXP() },
+                { "keepinventory", new CommandKeepInventory() },
+                { "deathpoint", new CommandDeathPoint() },
         };
 
         for (Object[] par : comandos) {
