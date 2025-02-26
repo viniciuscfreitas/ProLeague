@@ -4,13 +4,21 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.scheduler.BukkitRunnable;
 
-public class CommandInvsee implements CommandExecutor {
+import java.util.HashMap;
+import java.util.Map;
+
+public class CommandInvsee implements CommandExecutor, Listener {
+
+    private final Map<String, String> viewingInventory = new HashMap<>(); // Admin -> Jogador observado
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -19,7 +27,8 @@ public class CommandInvsee implements CommandExecutor {
             return true;
         }
 
-        final Player viewer = (Player) sender;
+        Player viewer = (Player) sender;
+
         if (!viewer.hasPermission("proleague.invsee")) {
             viewer.sendMessage("§cVocê não tem permissão para usar este comando.");
             return true;
@@ -30,60 +39,87 @@ public class CommandInvsee implements CommandExecutor {
             return true;
         }
 
-        final Player target = Bukkit.getPlayer(args[0]);
+        Player target = Bukkit.getPlayer(args[0]);
+
         if (target == null) {
             viewer.sendMessage("§cJogador não encontrado.");
             return true;
         }
 
-        if (viewer.equals(target)) {
-            viewer.sendMessage("§cVocê não pode abrir seu próprio inventário.");
+        if (viewer.getName().equalsIgnoreCase(target.getName())) {
+            viewer.sendMessage("§cVocê não pode abrir seu próprio inventário!");
             return true;
         }
 
-        // Criar inventário virtual com slots extras para armadura
-        final Inventory invsee = Bukkit.createInventory(viewer, 45, "Inventário de " + target.getName());
+        // Criar inventário espelho
+        Inventory invsee = Bukkit.createInventory(viewer, 45, "Inventário de " + target.getName());
 
-        // Copiar itens do inventário principal
+        // Copiar inventário do jogador
         for (int i = 0; i < 36; i++) {
             invsee.setItem(i, target.getInventory().getItem(i));
         }
 
-        // Copiar a armadura (capacete, peitoral, calça, bota)
-        final ItemStack[] armor = target.getInventory().getArmorContents();
-        for (int i = 0; i < 4; i++) {
-            invsee.setItem(36 + i, armor[i]); // Slots 36-39 para armadura
+        // Copiar armadura (slots 36-39)
+        ItemStack[] armor = target.getInventory().getArmorContents();
+        for (int i = 0; i < armor.length; i++) {
+            invsee.setItem(36 + i, armor[i]);
         }
+
+        // Armazenar referência para controle do inventário
+        viewingInventory.put(viewer.getName(), target.getName());
 
         // Abrir inventário para o administrador
         viewer.openInventory(invsee);
-        viewer.sendMessage("§aVisualizando o inventário e a armadura de " + target.getName());
-
-        // Criar uma task assíncrona para sincronizar itens e armadura em tempo real
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (viewer.getOpenInventory().getTitle().equals("Inventário de " + target.getName())) {
-                    PlayerInventory targetInventory = target.getInventory();
-
-                    // Atualizar itens normais
-                    for (int i = 0; i < 36; i++) {
-                        targetInventory.setItem(i, invsee.getItem(i));
-                    }
-
-                    // Atualizar armadura
-                    targetInventory.setArmorContents(new ItemStack[]{
-                            invsee.getItem(36),
-                            invsee.getItem(37),
-                            invsee.getItem(38),
-                            invsee.getItem(39)
-                    });
-                } else {
-                    this.cancel(); // Cancela a task quando o inventário é fechado
-                }
-            }
-        }.runTaskTimer(Bukkit.getPluginManager().getPlugin("ProLeagueEssencial"), 0L, 5L); // Atualiza a cada 5 ticks (1/4 de segundo)
 
         return true;
+    }
+
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent event) {
+        HumanEntity entity = event.getWhoClicked();
+        if (!(entity instanceof Player)) return;
+
+        Player admin = (Player) entity;
+        String targetName = viewingInventory.get(admin.getName());
+
+        if (targetName == null) return; // Não é um inventário do /invsee
+
+        Player target = Bukkit.getPlayer(targetName);
+        if (target == null) {
+            viewingInventory.remove(admin.getName());
+            return;
+        }
+
+        Inventory invsee = event.getInventory(); // Corrigido para 1.5.2
+        int slot = event.getRawSlot();
+
+        // Evita cliques fora do inventário alvo
+        if (slot < 0 || slot >= invsee.getSize()) return;
+
+        event.setCancelled(false); // Permitir edição do inventário
+
+        // Se for dentro do inventário visualizado
+        if (slot < 36) { // Inventário principal
+            target.getInventory().setItem(slot, invsee.getItem(slot));
+        } else if (slot >= 36 && slot < 40) { // Armadura
+            ItemStack[] armor = target.getInventory().getArmorContents();
+            armor[slot - 36] = invsee.getItem(slot);
+            target.getInventory().setArmorContents(armor);
+        }
+
+        target.updateInventory();
+    }
+
+    @EventHandler
+    public void onInventoryClose(InventoryCloseEvent event) {
+        Player admin = (Player) event.getPlayer();
+        String targetName = viewingInventory.remove(admin.getName());
+
+        if (targetName == null) return;
+
+        Player target = Bukkit.getPlayer(targetName);
+        if (target == null) return;
+
+        target.updateInventory();
     }
 }

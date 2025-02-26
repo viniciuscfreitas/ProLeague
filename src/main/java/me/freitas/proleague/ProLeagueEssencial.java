@@ -4,12 +4,13 @@ import me.freitas.proleague.commands.*;
 import me.freitas.proleague.listeners.PlayerJoinListener;
 import me.freitas.proleague.listeners.PlayerListener;
 import me.freitas.proleague.utils.LocationUtil;
+import me.freitas.proleague.managers.NickManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,12 +19,17 @@ public class ProLeagueEssencial extends JavaPlugin {
     private Location spawnLocation;
     private Set<String> frozenPlayers = new HashSet<>();
     private Set<String> mutedPlayers = new HashSet<>();
+    private NickManager nickManager; // Gerenciador de Nicks
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
         getConfig().options().copyDefaults(true);
         saveConfig();
+
+        this.nickManager = new NickManager(this); // Inicializa o gerenciador de nicks
+
+        createFiles(); // Criar arquivos bans.yml e banip.yml
 
         loadSpawnLocation();
         loadFrozenPlayers();
@@ -47,7 +53,7 @@ public class ProLeagueEssencial extends JavaPlugin {
     }
 
     private void registerCommands() {
-        // Crie um array de pares comando/instância.
+        // Lista de comandos
         Object[][] comandos = new Object[][] {
                 { "setspawn", new CommandSpawn(this) },
                 { "spawn", new CommandSpawn(this) },
@@ -88,29 +94,21 @@ public class ProLeagueEssencial extends JavaPlugin {
                 { "ext", new CommandExt() },
                 { "freeze", new CommandFreeze(this) },
                 { "unfreeze", new CommandUnfreeze(this) },
-                { "warn", new CommandWarn(this) },
-                { "history", new CommandHistory(this) },
-                { "mute", new CommandMute(this) },
-                { "unmute", new CommandUnmute(this) },
                 { "clearchat", new CommandClearChat() },
-                { "banip", new CommandBanIP(this) },
-                { "unbanip", new CommandUnbanIP(this) },
                 { "rain", new CommandWeather("rain") },
                 { "sun", new CommandWeather("clear") },
                 { "thunder", new CommandWeather("thunder") },
                 { "kick", new CommandKick() },
-                { "ban", new CommandBan() },
-                { "unban", new CommandUnban() },
                 { "vanish", new CommandVanish() },
                 { "invsee", new CommandInvsee() },
                 { "tphere", new CommandTphere() },
-                { "nick", new CommandNick() },
-                { "realname", new CommandRealName() },
                 { "clearinventory", new CommandClearInventory() },
                 { "tpall", new CommandTpAll() },
                 { "keepxp", new CommandKeepXP() },
                 { "keepinventory", new CommandKeepInventory() },
                 { "deathpoint", new CommandDeathPoint() },
+                { "nick", new CommandNick(this) },
+                { "realname", new CommandRealName(this) },
         };
 
         for (Object[] par : comandos) {
@@ -129,6 +127,14 @@ public class ProLeagueEssencial extends JavaPlugin {
         if (getCommand(command) != null) {
             getCommand(command).setExecutor((org.bukkit.command.CommandExecutor) executor);
         }
+    }
+
+    private void createFiles() {
+        File bansFile = new File(getDataFolder(), "bans.yml");
+        File ipBansFile = new File(getDataFolder(), "banip.yml");
+
+        if (!bansFile.exists()) saveResource("bans.yml", false);
+        if (!ipBansFile.exists()) saveResource("banip.yml", false);
     }
 
     private void loadSpawnLocation() {
@@ -187,5 +193,9 @@ public class ProLeagueEssencial extends JavaPlugin {
 
     private void saveBanIPs() {
         saveConfig();
+    }
+
+    public NickManager getNickManager() {
+        return nickManager;
     }
 }

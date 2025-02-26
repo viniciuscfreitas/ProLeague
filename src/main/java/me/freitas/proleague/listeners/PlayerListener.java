@@ -10,7 +10,6 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.entity.Player;
 import me.freitas.proleague.commands.CommandBack;
 import me.freitas.proleague.commands.CommandFreeze;
-import me.freitas.proleague.commands.CommandMute;
 
 public class PlayerListener implements Listener {
 
@@ -41,12 +40,4 @@ public class PlayerListener implements Listener {
         }
     }
 
-    @EventHandler
-    public void onPlayerChat(AsyncPlayerChatEvent event) {
-        Player player = event.getPlayer();
-        if (CommandMute.isMuted(plugin, player)) {
-            player.sendMessage("§c⚠ Você está mutado e não pode falar no chat.");
-            event.setCancelled(true);
-        }
-    }
 }
