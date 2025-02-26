@@ -6,17 +6,18 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import java.util.Set;
 
 import java.util.HashSet;
+import java.util.Set;
 
 public class CommandGod implements CommandExecutor {
+
     private final MessageManager messageManager;
-    private final Set<String> godPlayers;
+    private final Set<String> godPlayers; // Lista de jogadores no modo God
 
     public CommandGod(ProLeagueEssencial plugin) {
         this.messageManager = plugin.getMessageManager();
-        this.godPlayers = plugin.getGodPlayers(); // Agora armazena nomes em vez de UUIDs
+        this.godPlayers = plugin.getGodPlayers(); // Armazena os jogadores com God Mode
     }
 
     @Override
@@ -33,13 +34,12 @@ public class CommandGod implements CommandExecutor {
             return true;
         }
 
-        String playerName = player.getName(); // Utilizando nome do jogador
-
-        if (godPlayers.contains(playerName)) {
-            godPlayers.remove(playerName);
+        // Alternar o estado do God Mode
+        if (godPlayers.contains(player.getName())) {
+            godPlayers.remove(player.getName());
             player.sendMessage(messageManager.getMessage("god.disabled"));
         } else {
-            godPlayers.add(playerName);
+            godPlayers.add(player.getName());
             player.sendMessage(messageManager.getMessage("god.enabled"));
         }
 

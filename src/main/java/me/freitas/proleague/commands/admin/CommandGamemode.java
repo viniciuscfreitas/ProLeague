@@ -1,5 +1,7 @@
 package me.freitas.proleague.commands.admin;
 
+import me.freitas.proleague.ProLeagueEssencial;
+import me.freitas.proleague.managers.MessageManager;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
@@ -9,46 +11,67 @@ import org.bukkit.entity.Player;
 
 public class CommandGamemode implements CommandExecutor {
 
+    private final ProLeagueEssencial plugin;
+    private final MessageManager messageManager;
+
+    public CommandGamemode(ProLeagueEssencial plugin) {
+        this.plugin = plugin;
+        this.messageManager = plugin.getMessageManager();
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (args.length < 1 || args.length > 2) {
-            sender.sendMessage("§cUso correto: /gm <0|1|2> [jogador]");
+        if (!sender.hasPermission("proleague.gamemode")) {
+            sender.sendMessage(messageManager.getMessage("no-permission"));
             return true;
+        }
+
+        if (args.length < 1 || args.length > 2) {
+            sender.sendMessage(messageManager.getMessage("gamemode-usage"));
+            return true;
+        }
+
+        GameMode gameMode;
+        switch (args[0].toLowerCase()) {
+            case "0":
+            case "survival":
+                gameMode = GameMode.SURVIVAL;
+                break;
+            case "1":
+            case "creative":
+                gameMode = GameMode.CREATIVE;
+                break;
+            case "2":
+            case "adventure":
+                gameMode = GameMode.ADVENTURE;
+                break;
+            case "3":
+            default:
+                sender.sendMessage(messageManager.getMessage("invalid-gamemode"));
+                return true;
         }
 
         Player target;
         if (args.length == 2) {
             target = Bukkit.getPlayer(args[1]);
             if (target == null) {
-                sender.sendMessage("§cJogador não encontrado.");
+                sender.sendMessage(messageManager.getMessage("player-not-found"));
                 return true;
             }
         } else {
             if (!(sender instanceof Player)) {
-                sender.sendMessage("§cApenas jogadores podem alterar seu próprio modo de jogo.");
+                sender.sendMessage(messageManager.getMessage("only-players"));
                 return true;
             }
             target = (Player) sender;
         }
 
-        GameMode mode;
-        switch (args[0]) {
-            case "0":
-                mode = GameMode.SURVIVAL;
-                break;
-            case "1":
-                mode = GameMode.CREATIVE;
-                break;
-            case "2":
-                mode = GameMode.ADVENTURE;
-                break;
-            default:
-                sender.sendMessage("§cModo inválido! Use: 0 (Sobrevivência), 1 (Criativo), 2 (Aventura).");
-                return true;
+        target.setGameMode(gameMode);
+        target.sendMessage(messageManager.getMessage("gamemode-changed").replace("%gamemode%", gameMode.name()));
+        if (target != sender) {
+            sender.sendMessage(messageManager.getMessage("gamemode-updated").replace("%player%", target.getName()).replace("%gamemode%", gameMode.name()));
         }
 
-        target.setGameMode(mode);
-        sender.sendMessage("§aModo de jogo de " + target.getName() + " alterado para " + mode.name().toLowerCase() + "!");
         return true;
     }
 }

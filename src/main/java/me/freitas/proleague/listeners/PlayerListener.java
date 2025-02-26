@@ -34,8 +34,8 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
-        if (CommandFreeze.isFrozen(plugin, player)) {
-            event.setCancelled(true);
+        if (CommandFreeze.isFrozen(player)) {
+            event.setTo(event.getFrom());
         }
     }
 

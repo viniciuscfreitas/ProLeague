@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class CommandSpeed implements CommandExecutor {
+
     private final MessageManager messageManager;
 
     public CommandSpeed(ProLeagueEssencial plugin) {
@@ -17,59 +18,57 @@ public class CommandSpeed implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player) && args.length < 2) {
-            sender.sendMessage(messageManager.getMessage("general.only_players"));
+        if (!sender.hasPermission("proleague.speed")) {
+            sender.sendMessage(messageManager.getMessage("general.no_permission"));
             return true;
         }
 
-        Player target;
-        float speed;
-
-        if (args.length == 0) {
+        if (args.length < 1 || args.length > 2) {
             sender.sendMessage(messageManager.getMessage("speed.usage"));
             return true;
         }
 
-        try {
-            speed = Float.parseFloat(args[0]) / 10;
-        } catch (NumberFormatException e) {
-            sender.sendMessage(messageManager.getMessage("speed.invalid_number"));
-            return true;
-        }
-
-        if (speed < 0 || speed > 1) {
-            sender.sendMessage(messageManager.getMessage("speed.out_of_range"));
-            return true;
-        }
-
+        Player target;
         if (args.length == 2) {
-            if (!sender.hasPermission("proleague.speed.others")) {
-                sender.sendMessage(messageManager.getMessage("general.no_permission"));
-                return true;
-            }
-
             target = Bukkit.getPlayer(args[1]);
             if (target == null) {
                 sender.sendMessage(messageManager.getMessage("general.player_not_found"));
                 return true;
             }
         } else {
+            if (!(sender instanceof Player)) {
+                sender.sendMessage(messageManager.getMessage("general.only_players"));
+                return true;
+            }
             target = (Player) sender;
         }
 
-        if (target.isFlying()) {
-            target.setFlySpeed(speed);
-        } else {
-            target.setWalkSpeed(speed);
-        }
+        try {
+            float speed = Float.parseFloat(args[0]);
+            if (speed < 0 || speed > 10) {
+                sender.sendMessage(messageManager.getMessage("speed.out_of_range"));
+                return true;
+            }
 
-        target.sendMessage(messageManager.getMessage("speed.success").replace("{speed}", String.valueOf(speed * 10)));
-        if (!target.equals(sender)) {
-            sender.sendMessage(messageManager.getMessage("speed.others_success")
-                    .replace("{player}", target.getName())
-                    .replace("{speed}", String.valueOf(speed * 10)));
-        }
+            float finalSpeed = speed / 10; // Convertendo para o range do Minecraft (0.0 - 1.0)
+            if (target.isFlying()) {
+                target.setFlySpeed(finalSpeed);
+            } else {
+                target.setWalkSpeed(finalSpeed);
+            }
 
+            if (target.equals(sender)) {
+                sender.sendMessage(messageManager.getMessage("speed.success").replace("{speed}", args[0]));
+            } else {
+                sender.sendMessage(messageManager.getMessage("speed.others_success")
+                        .replace("{player}", target.getName())
+                        .replace("{speed}", args[0]));
+                target.sendMessage(messageManager.getMessage("speed.success").replace("{speed}", args[0]));
+            }
+
+        } catch (NumberFormatException e) {
+            sender.sendMessage(messageManager.getMessage("speed.invalid_number"));
+        }
         return true;
     }
 }

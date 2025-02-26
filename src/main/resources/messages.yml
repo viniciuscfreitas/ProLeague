@@ -20,8 +20,10 @@ weather:
   weather_thunder: "&cUma tempestade foi iniciada!"
 
 admin:
-  vanish_enabled: "&aVocê está agora invisível!"
-  vanish_disabled: "&cVocê não está mais invisível!"
+  vanish_enabled: "&aVocê ativou o vanish. Agora está invisível para jogadores comuns!"
+  vanish_disabled: "&cVocê desativou o vanish. Agora está visível novamente!"
+  vanish_notify_on: "&7[Admin] {player} &8entrou no modo vanish."
+  vanish_notify_off: "&7[Admin] {player} &8saiu do modo vanish."
   chat_cleared: "&aO chat foi limpo!"
 
 inventory:
@@ -29,7 +31,6 @@ inventory:
   clearinventory_success: "&aInventário de {player} foi limpo."
 
 other:
-  heal_success: "&aVocê foi completamente curado!"
   fly_enabled: "&aModo de voo ativado!"
   fly_disabled: "&cModo de voo desativado!"
 
@@ -39,3 +40,49 @@ speed:
   out_of_range: "&cA velocidade deve estar entre 0 e 10."
   success: "&aSua velocidade foi ajustada para {speed}!"
   others_success: "&aVocê ajustou a velocidade de {player} para {speed}!"
+
+feed:
+  feed-success: "&aVocê se alimentou completamente!"
+  feed-received: "&aVocê foi alimentado por %player%!"
+  feed-other-success: "&aVocê alimentou %player%!"
+
+freeze:
+  freeze-frozen: "&c{player} foi congelado!"
+  freeze-frozen-target: "&cVocê foi congelado! Não pode mais se mover."
+  freeze-unfrozen: "&a{player} foi descongelado!"
+  freeze-unfrozen-target: "&aVocê foi descongelado! Agora pode se mover novamente."
+  freeze-not-frozen: "&c{player} não está congelado!"
+
+gamemode:
+  usage: "&cUso: /gamemode <0|1|2> [jogador]"
+  invalid-gamemode: "&cModo de jogo inválido! Use 0 (Survival), 1 (Creative) ou 2 (Adventure)."
+  only-players: "&cApenas jogadores podem mudar o próprio modo de jogo!"
+  gamemode-changed: "&aSeu modo de jogo foi alterado para {gamemode}!"
+  gamemode-updated: "&aVocê alterou o modo de jogo de {player} para {gamemode}!"
+
+info:
+  usage: "&cUso correto: /info [jogador]"
+  not-found: "&cJogador {player} não encontrado."
+  header: "&6===== [ Informações do Jogador ] ====="
+  name: "&eNome: &f{player}"
+  ip: "&eIP: &f{ip}"
+  health: "&eVida: &f{health} corações"
+  food: "&eFome: &f{food}"
+  exp: "&eNível de Experiência: &f{exp}"
+  footer: "&6====================================="
+
+god:
+  enabled: "&aModo God ativado! Você está invulnerável."
+  disabled: "&cModo God desativado! Agora você pode receber dano."
+
+heal:
+  success: "&aVocê curou {player} com sucesso!"
+  healed: "&aVocê foi completamente curado!"
+
+config:
+  reloaded: "&aConfiguração recarregada com sucesso!"
+
+sudo:
+  usage: "&cUso: /sudo <jogador> <comando|mensagem>"
+  success_command: "&aVocê forçou {player} a executar: {command}"
+  success_chat: "&aVocê forçou {player} a dizer: {message}"

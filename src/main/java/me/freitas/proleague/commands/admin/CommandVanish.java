@@ -22,7 +22,7 @@ public class CommandVanish implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(messageManager.getMessage("general.no_permission"));
+            sender.sendMessage(messageManager.getMessage("general.players_only"));
             return true;
         }
 
@@ -34,18 +34,30 @@ public class CommandVanish implements CommandExecutor {
         }
 
         if (vanishedPlayers.contains(player.getName())) {
+            // Desativando vanish
             vanishedPlayers.remove(player.getName());
             for (Player online : Bukkit.getOnlinePlayers()) {
                 online.showPlayer(player);
             }
             player.sendMessage(messageManager.getMessage("admin.vanish_disabled"));
+            Bukkit.broadcast(messageManager.getMessage("admin.vanish_notify_off")
+                    .replace("{player}", player.getName()), "proleague.vanish.see");
         } else {
+            // Ativando vanish
             vanishedPlayers.add(player.getName());
             for (Player online : Bukkit.getOnlinePlayers()) {
-                online.hidePlayer(player);
+                if (!online.hasPermission("proleague.vanish.see")) {
+                    online.hidePlayer(player);
+                }
             }
             player.sendMessage(messageManager.getMessage("admin.vanish_enabled"));
+            Bukkit.broadcast(messageManager.getMessage("admin.vanish_notify_on")
+                    .replace("{player}", player.getName()), "proleague.vanish.see");
         }
         return true;
+    }
+
+    public static boolean isVanished(Player player) {
+        return vanishedPlayers.contains(player.getName());
     }
 }
