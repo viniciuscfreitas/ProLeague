@@ -3,13 +3,12 @@ package me.freitas.proleague.listeners;
 import me.freitas.proleague.ProLeagueEssencial;
 import org.bukkit.event.Listener;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.entity.Player;
-import me.freitas.proleague.commands.CommandBack;
-import me.freitas.proleague.commands.CommandFreeze;
+import me.freitas.proleague.commands.teleport.CommandBack;
+import me.freitas.proleague.commands.admin.CommandFreeze;
 
 public class PlayerListener implements Listener {
 

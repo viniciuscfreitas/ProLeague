@@ -6,7 +6,7 @@ description: Plugin oficial do servidor ProLeagueEssencial.
 website: https://seusite.com
 
 commands:
-  #  Comandos Gerais
+  # Comandos Gerais
   ping:
     description: Mostra o ping do jogador.
     usage: /ping [jogador]
@@ -27,7 +27,17 @@ commands:
     usage: /motd
     permission: proleague.motd
 
-  #  Sistema de Teleporte
+  whois:
+    description: Mostra informações detalhadas de um jogador (IP, tempo online, localização).
+    usage: /whois <jogador>
+    permission: proleague.admin
+
+  seen:
+    description: Mostra a última vez que um jogador esteve online.
+    usage: /seen <jogador>
+    permission: proleague.utility
+
+  # Sistema de Teleporte
   tp:
     description: Teleporta para um jogador.
     usage: /tp <jogador>
@@ -58,7 +68,12 @@ commands:
     usage: /tpall
     permission: proleague.tpall
 
-  #  Sistema de Warps e Spawn
+  tptoggle:
+    description: Ativa ou desativa pedidos de teleporte para si mesmo.
+    usage: /tptoggle
+    permission: proleague.tptoggle
+
+  # Sistema de Warps e Spawn
   setspawn:
     description: Define o local de spawn global do servidor.
     usage: /setspawn
@@ -89,7 +104,7 @@ commands:
     usage: /warps
     permission: proleague.warps
 
-  #  Comandos Administrativos
+  # Comandos Administrativos
   reloadconfig:
     description: Recarrega a configuração do plugin.
     usage: /reloadconfig
@@ -115,7 +130,7 @@ commands:
     usage: /clearchat
     permission: proleague.admin
 
-  #  Sistema de Itens e Inventário
+  # Sistema de Itens e Inventário
   encantar:
     description: Encanta o item que você está segurando.
     usage: /encantar <encantamento> <nível>
@@ -125,6 +140,11 @@ commands:
     description: Abre uma bigorna virtual.
     usage: /anvil
     permission: proleague.anvil
+
+  workbench:
+    description: Abre uma bancada de trabalho virtual.
+    usage: /workbench
+    permission: proleague.workbench
 
   enderchest:
     description: Abre o baú do Ender.
@@ -151,7 +171,7 @@ commands:
     usage: /hat
     permission: proleague.hat
 
-  #  Clima e Tempo
+  # Clima e Tempo
   day:
     description: Define o horário do mundo como dia.
     usage: /day
@@ -176,6 +196,16 @@ commands:
     description: Inicia uma tempestade.
     usage: /thunder
     permission: proleague.admin
+
+  ptime:
+    description: Define o tempo pessoal do jogador.
+    usage: /ptime <dia|noite|reset>
+    permission: proleague.time
+
+  pweather:
+    description: Define o clima pessoal do jogador.
+    usage: /pweather <sol|chuva|reset>
+    permission: proleague.weather
 
   # Outros Comandos
   god:
@@ -212,3 +242,18 @@ commands:
     description: Envia uma mensagem global para todos os jogadores.
     usage: /broadcast <mensagem>
     permission: proleague.broadcast
+
+  keepinventory:
+    description: Mantém o inventário do jogador ao morrer.
+    usage: /keepinventory [on|off]
+    permission: proleague.keepinventory
+
+  keepxp:
+    description: Mantém a experiência do jogador ao morrer.
+    usage: /keepxp [on|off]
+    permission: proleague.keepxp
+
+  realname:
+    description: Exibe o nome real de um jogador caso esteja usando nick.
+    usage: /realname <jogador>
+    permission: proleague.nick

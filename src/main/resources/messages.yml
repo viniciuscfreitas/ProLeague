@@ -1,0 +1,41 @@
+# Configuração de Mensagens do ProLeagueEssencial
+
+general:
+  no_permission: "&cVocê não tem permissão para usar este comando!"
+  player_not_found: "&cJogador não encontrado!"
+  invalid_usage: "&cUso incorreto! Tente: &e{usage}"
+
+teleport:
+  tp_success: "&aVocê foi teleportado para {player}!"
+  tp_request_sent: "&aPedido de teleporte enviado para {player}!"
+  tp_request_received: "&e{sender} deseja se teleportar até você. Use &a/tpaccept &eou &c/tpdeny"
+
+spawn:
+  setspawn_success: "&aO spawn do servidor foi definido!"
+  spawn_teleport: "&aTeleportando para o spawn..."
+
+weather:
+  weather_sun: "&aClima definido como ensolarado!"
+  weather_rain: "&bClima definido como chuvoso!"
+  weather_thunder: "&cUma tempestade foi iniciada!"
+
+admin:
+  vanish_enabled: "&aVocê está agora invisível!"
+  vanish_disabled: "&cVocê não está mais invisível!"
+  chat_cleared: "&aO chat foi limpo!"
+
+inventory:
+  invsee_open: "&aVisualizando o inventário de {player}."
+  clearinventory_success: "&aInventário de {player} foi limpo."
+
+other:
+  heal_success: "&aVocê foi completamente curado!"
+  fly_enabled: "&aModo de voo ativado!"
+  fly_disabled: "&cModo de voo desativado!"
+
+speed:
+  usage: "&cUso: /speed <0-10> [jogador]"
+  invalid_number: "&cPor favor, insira um número válido entre 0 e 10."
+  out_of_range: "&cA velocidade deve estar entre 0 e 10."
+  success: "&aSua velocidade foi ajustada para {speed}!"
+  others_success: "&aVocê ajustou a velocidade de {player} para {speed}!"
