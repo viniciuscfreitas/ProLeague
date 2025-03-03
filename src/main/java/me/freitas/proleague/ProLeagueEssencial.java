@@ -12,44 +12,51 @@ import me.freitas.proleague.commands.weather.CommandWeather;
 import me.freitas.proleague.listeners.GodModeListener;
 import me.freitas.proleague.listeners.PlayerJoinListener;
 import me.freitas.proleague.listeners.PlayerListener;
+import me.freitas.proleague.listeners.KitGUIListener;
 import me.freitas.proleague.managers.MessageManager;
-import me.freitas.proleague.utils.LocationUtil;
 import me.freitas.proleague.managers.NickManager;
+import me.freitas.proleague.managers.KitConfigManager;
+import me.freitas.proleague.managers.KitManager;
+import me.freitas.proleague.commands.kits.CommandKits;
+import me.freitas.proleague.utils.LocationUtil;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 
 public class ProLeagueEssencial extends JavaPlugin {
 
     private Location spawnLocation;
-    private Set<String> frozenPlayers = new HashSet<>();
-    private Set<String> mutedPlayers = new HashSet<>();
-    private Set<String> godPlayers = new HashSet<>();
+    private Set<String> frozenPlayers = new HashSet<String>();
+    private Set<String> mutedPlayers = new HashSet<String>();
+    private Set<String> godPlayers = new HashSet<String>();
 
     private NickManager nickManager;
     private MessageManager messageManager;
+    private KitManager kitManager;
+    private KitConfigManager kitConfigManager;  // Novo
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
         getConfig().options().copyDefaults(true);
         saveConfig();
+        if (!getDataFolder().exists()) {
+            getDataFolder().mkdirs();
+        }
 
-        this.nickManager = new NickManager(this);
-        this.messageManager = new MessageManager(this);
+        // Inicializa os managers
+        nickManager = new NickManager(this);
+        messageManager = new MessageManager(this);
+        kitConfigManager = new KitConfigManager(this); // Carrega kits.yml
+        kitManager = new KitManager(this, kitConfigManager); // Atualizado para usar KitConfigManager
 
         loadSpawnLocation();
-        loadFrozenPlayers();
-        loadMutedPlayers();
-        loadGodPlayers();
+        loadPlayerData();
 
         registerCommands();
         registerListeners();
@@ -60,16 +67,17 @@ public class ProLeagueEssencial extends JavaPlugin {
     @Override
     public void onDisable() {
         saveSpawnLocation();
-        saveFrozenPlayers();
-        saveMutedPlayers();
-        saveGodPlayers();
-        saveWarns();
+        savePlayerData();
+
+        frozenPlayers.clear();
+        mutedPlayers.clear();
+        godPlayers.clear();
 
         getLogger().info(ChatColor.RED + "[ProLeagueEssencial] Plugin desativado!");
     }
 
     private void registerCommands() {
-        Object[][] comandos = new Object[][]{
+        Object[][] comandos = {
                 {"setspawn", new CommandSpawn(this)},
                 {"spawn", new CommandSpawn(this)},
                 {"sethome", new CommandHome(this)},
@@ -122,7 +130,8 @@ public class ProLeagueEssencial extends JavaPlugin {
                 {"keepinventory", new CommandKeepInventory()},
                 {"deathpoint", new CommandDeathPoint()},
                 {"nick", new CommandNick(this)},
-                {"realname", new CommandRealName(this)}
+                {"realname", new CommandRealName(this)},
+                {"kit", new CommandKits(this)}
         };
 
         for (Object[] par : comandos) {
@@ -134,18 +143,30 @@ public class ProLeagueEssencial extends JavaPlugin {
         if (getCommand(command) != null) {
             getCommand(command).setExecutor((org.bukkit.command.CommandExecutor) executor);
         } else {
-            getLogger().warning("Comando '" + command + "' não foi registrado corretamente no plugin.yml!");
+            getLogger().warning("⚠️ Comando '" + command + "' não foi registrado corretamente no plugin.yml!");
         }
     }
 
     private void registerListeners() {
-        Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(this), this);
-        Bukkit.getPluginManager().registerEvents(new PlayerListener(this), this);
-        Bukkit.getPluginManager().registerEvents(new GodModeListener(this), this);
+        List<Listener> listeners = Arrays.asList(
+                new PlayerJoinListener(this),
+                new PlayerListener(this),
+                new GodModeListener(this),
+                new KitGUIListener(this)  // Registro do listener para a GUI dos kits
+        );
+
+        for (Listener listener : listeners) {
+            Bukkit.getPluginManager().registerEvents(listener, this);
+        }
     }
 
     private void loadSpawnLocation() {
-        spawnLocation = LocationUtil.getLocation(this, "spawn");
+        Location loc = LocationUtil.getLocation(this, "spawn");
+        if (loc == null) {
+            getLogger().warning("⚠️ Spawn não encontrado! Defina com /setspawn.");
+        } else {
+            spawnLocation = loc;
+        }
     }
 
     private void saveSpawnLocation() {
@@ -154,50 +175,25 @@ public class ProLeagueEssencial extends JavaPlugin {
         }
     }
 
-    private void loadFrozenPlayers() {
-        List<String> list = getConfig().getStringList("frozenPlayers");
-        if (list != null) {
-            frozenPlayers.addAll(list);
-        }
+    private void loadPlayerData() {
+        frozenPlayers = loadListFromConfig("frozenPlayers");
+        mutedPlayers = loadListFromConfig("mutedPlayers");
+        godPlayers = loadListFromConfig("godPlayers");
     }
 
-    private void saveFrozenPlayers() {
-        getConfig().set("frozenPlayers", new ArrayList<>(frozenPlayers));
+    private void savePlayerData() {
+        saveListToConfig("frozenPlayers", frozenPlayers);
+        saveListToConfig("mutedPlayers", mutedPlayers);
+        saveListToConfig("godPlayers", godPlayers);
+    }
+
+    private void saveListToConfig(String path, Set<String> data) {
+        getConfig().set(path, new ArrayList<String>(data));
         saveConfig();
     }
 
-    private void loadMutedPlayers() {
-        List<String> list = getConfig().getStringList("mutedPlayers");
-        if (list != null) {
-            mutedPlayers.addAll(list);
-        }
-    }
-
-    private void saveMutedPlayers() {
-        getConfig().set("mutedPlayers", new ArrayList<>(mutedPlayers));
-        saveConfig();
-    }
-
-    private void loadGodPlayers() {
-        List<String> list = getConfig().getStringList("godPlayers");
-        if (list != null) {
-            godPlayers.addAll(list);
-        }
-    }
-
-    private void saveGodPlayers() {
-        getConfig().set("godPlayers", new ArrayList<>(godPlayers));
-        saveConfig();
-    }
-
-    private void loadWarns() {
-        if (!getConfig().contains("warns")) {
-            getConfig().createSection("warns");
-        }
-    }
-
-    private void saveWarns() {
-        saveConfig();
+    private Set<String> loadListFromConfig(String path) {
+        return new HashSet<String>(getConfig().getStringList(path));
     }
 
     public Set<String> getFrozenPlayers() {
@@ -218,5 +214,13 @@ public class ProLeagueEssencial extends JavaPlugin {
 
     public MessageManager getMessageManager() {
         return messageManager;
+    }
+
+    public KitManager getKitManager() {
+        return kitManager;
+    }
+
+    public KitConfigManager getKitConfigManager() {
+        return kitConfigManager;
     }
 }

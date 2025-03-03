@@ -1,10 +1,10 @@
 package me.freitas.proleague.commands.admin;
 
-import me.freitas.proleague.ProLeagueEssencial;
-import me.freitas.proleague.managers.MessageManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import me.freitas.proleague.ProLeagueEssencial;
+import me.freitas.proleague.managers.MessageManager;
 
 public class CommandReloadConfig implements CommandExecutor {
 
@@ -24,9 +24,9 @@ public class CommandReloadConfig implements CommandExecutor {
         }
 
         plugin.reloadConfig();
-        messageManager.reloadMessages();
+        messageManager.reloadMessages(); // Certifique-se de que esse método existe no MessageManager.java
+        sender.sendMessage(messageManager.getMessage("admin.reload_success"));
 
-        sender.sendMessage(messageManager.getMessage("config.reloaded"));
         return true;
     }
 }

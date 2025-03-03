@@ -14,25 +14,48 @@ spawn:
   setspawn_success: "&aO spawn do servidor foi definido!"
   spawn_teleport: "&aTeleportando para o spawn..."
 
+home:
+  sethome_success: "&aHome '{home}' definida com sucesso!"
+  home_teleport: "&aTeleportando para sua home '{home}'!"
+  home_deleted: "&cHome '{home}' removida!"
+  home_not_found: "&cA home '{home}' não existe!"
+  home_list: "&eSuas homes salvas: &f{homes}."
+  home_max_reached: "&cVocê atingiu o limite de homes!"
+
+back:
+  back_success: "&aVocê voltou para sua última localização."
+  no_location: "&cNenhuma localização anterior encontrada."
+
+warp:
+  warp_set: "&aWarp '{warp}' criada!"
+  warp_deleted: "&cWarp '{warp}' removida!"
+  warp_teleport: "&aTeleportando para a warp '{warp}'!"
+  warp_not_found: "&cA warp '{warp}' não existe!"
+  warp_list: "&eWarps disponíveis: &f{warps}."
+
 weather:
   weather_sun: "&aClima definido como ensolarado!"
   weather_rain: "&bClima definido como chuvoso!"
   weather_thunder: "&cUma tempestade foi iniciada!"
 
 admin:
-  vanish_enabled: "&aVocê ativou o vanish. Agora está invisível para jogadores comuns!"
-  vanish_disabled: "&cVocê desativou o vanish. Agora está visível novamente!"
-  vanish_notify_on: "&7[Admin] {player} &8entrou no modo vanish."
-  vanish_notify_off: "&7[Admin] {player} &8saiu do modo vanish."
+  vanish_enabled: "&aVocê ativou o vanish. Agora está invisível!"
+  vanish_disabled: "&cVocê desativou o vanish. Agora está visível!"
+  vanish_notify_on: "&7[Admin] {player} entrou no modo vanish."
+  vanish_notify_off: "&7[Admin] {player} saiu do modo vanish."
   chat_cleared: "&aO chat foi limpo!"
+  reload_success: "&aConfigurações do ProLeagueEssencial recarregadas com sucesso!"
 
 inventory:
   invsee_open: "&aVisualizando o inventário de {player}."
-  clearinventory_success: "&aInventário de {player} foi limpo."
+  clearinventory_success: "&aInventário de {player} foi limpo!"
+  clearinventory_confirm: "&cTem certeza? Use /clearinventory confirmar"
 
 other:
   fly_enabled: "&aModo de voo ativado!"
   fly_disabled: "&cModo de voo desativado!"
+  nick_changed: "&aSeu nick foi alterado para '{nick}'!"
+  nick_reset: "&cSeu nick foi resetado!"
 
 speed:
   usage: "&cUso: /speed <0-10> [jogador]"
@@ -42,27 +65,27 @@ speed:
   others_success: "&aVocê ajustou a velocidade de {player} para {speed}!"
 
 feed:
-  feed-success: "&aVocê se alimentou completamente!"
-  feed-received: "&aVocê foi alimentado por %player%!"
-  feed-other-success: "&aVocê alimentou %player%!"
+  feed_success: "&aVocê se alimentou completamente!"
+  feed_received: "&aVocê foi alimentado por {player}!"
+  feed_other_success: "&aVocê alimentou {player}!"
 
 freeze:
-  freeze-frozen: "&c{player} foi congelado!"
-  freeze-frozen-target: "&cVocê foi congelado! Não pode mais se mover."
-  freeze-unfrozen: "&a{player} foi descongelado!"
-  freeze-unfrozen-target: "&aVocê foi descongelado! Agora pode se mover novamente."
-  freeze-not-frozen: "&c{player} não está congelado!"
+  freeze_frozen: "&c{player} foi congelado!"
+  freeze_frozen_target: "&cVocê foi congelado! Não pode mais se mover."
+  freeze_unfrozen: "&a{player} foi descongelado!"
+  freeze_unfrozen_target: "&aVocê foi descongelado! Agora pode se mover novamente."
+  freeze_not_frozen: "&c{player} já está descongelado!"
 
 gamemode:
   usage: "&cUso: /gamemode <0|1|2> [jogador]"
-  invalid-gamemode: "&cModo de jogo inválido! Use 0 (Survival), 1 (Creative) ou 2 (Adventure)."
-  only-players: "&cApenas jogadores podem mudar o próprio modo de jogo!"
-  gamemode-changed: "&aSeu modo de jogo foi alterado para {gamemode}!"
-  gamemode-updated: "&aVocê alterou o modo de jogo de {player} para {gamemode}!"
+  invalid_gamemode: "&cModo de jogo inválido! Use 0 (Survival), 1 (Creative) ou 2 (Adventure)."
+  only_players: "&cApenas jogadores podem mudar o próprio modo de jogo!"
+  gamemode_changed: "&aSeu modo de jogo foi alterado para {gamemode}!"
+  gamemode_updated: "&aVocê alterou o modo de jogo de {player} para {gamemode}!"
 
 info:
   usage: "&cUso correto: /info [jogador]"
-  not-found: "&cJogador {player} não encontrado."
+  not_found: "&cJogador {player} não encontrado."
   header: "&6===== [ Informações do Jogador ] ====="
   name: "&eNome: &f{player}"
   ip: "&eIP: &f{ip}"
@@ -79,10 +102,27 @@ heal:
   success: "&aVocê curou {player} com sucesso!"
   healed: "&aVocê foi completamente curado!"
 
-config:
-  reloaded: "&aConfiguração recarregada com sucesso!"
-
 sudo:
   usage: "&cUso: /sudo <jogador> <comando|mensagem>"
-  success_command: "&aVocê forçou {player} a executar: {command}"
-  success_chat: "&aVocê forçou {player} a dizer: {message}"
+  success_command: "&a{player} foi forçado a executar: &e{command}"
+  success_chat: "&a{player} foi forçado a falar: &e{message}"
+
+kit:
+  apenas_jogadores: "&cApenas jogadores podem executar este comando."
+  sem_permissao_criar: "&cVocê não tem permissão para criar kits."
+  uso_criar: "&cUso: /kit criar <nome> [permissão]"
+  ja_existe: "&cJá existe um kit com esse nome."
+  criado: "&aKit '{kit}' criado com sucesso!"
+  sem_permissao_deletar: "&cVocê não tem permissão para deletar kits."
+  uso_deletar: "&cUso: /kit deletar <nome>"
+  nao_existe: "&cKit '{kit}' não existe."
+  deletado: "&aKit '{kit}' deletado com sucesso!"
+  sem_permissao_dar: "&cVocê não tem permissão para dar kits."
+  uso_dar: "&cUso: /kit dar <nome> <jogador>"
+  jogador_nao_encontrado: "&cJogador '{jogador}' não encontrado."
+  aplicado: "&aKit '{kit}' aplicado ao jogador {jogador}."
+  sem_permissao_rename: "&cVocê não tem permissão para renomear kits."
+  uso_rename: "&cUso: /kit rename <antigo> <novo>"
+  rename_sucesso: "&aKit renomeado de '{old}' para '{new}'."
+  sem_kits: "&cNenhum kit disponível."
+  lista_titulo: "&aKits Disponíveis"

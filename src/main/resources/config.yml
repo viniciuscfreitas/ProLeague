@@ -1,3 +1,54 @@
 settings:
   debug-mode: false
-  mensagem-de-boas-vindas: "&aBem-vindo ao servidor, &e{player}&a! Divirta-se!"
+  motd: "&aBem-vindo ao &6Pro League&a! &7Conquiste seu espaço e torne-se uma lenda."
+  welcome-message: >
+    &7━━━━━━━━━━━━━━━━━━━━━━━━━
+    &aBem-vindo ao &6Pro League, &e{player}&a!
+    &7Você acaba de entrar em um mundo onde o &cPvP é paixão &7e a &eexcelência é rotina.
+    
+    &bExplore comandos exclusivos &7como teletransportes rápidos, sistema de &ahomes &7e &ewarps.
+    &aDesafie seus amigos, domine as arenas e evolua a cada batalha.
+    
+    &dLembre-se: Aqui, &ahabilidade &7e &eestratégia &7determinam seu sucesso.
+    &7Divirta-se, mostre seu valor e &6faça história no Pro League!
+    &7━━━━━━━━━━━━━━━━━━━━━━━━━
+
+kits:
+  iniciante:
+    display-name: "&aKit Iniciante"
+    delay: 600 # Tempo em segundos (10 minutos)
+    items:
+      - "iron_sword:1 unbreaking:1 sharpness:1"
+      - "iron_helmet:1 protection:1"
+      - "iron_chestplate:1 protection:1"
+      - "iron_leggings:1 protection:1"
+      - "iron_boots:1 protection:1"
+      - "cooked_beef:16"
+    permissions: "proleague.kit.iniciante"
+
+  guerreiro:
+    display-name: "&6Kit Guerreiro"
+    delay: 1800 # 30 minutos
+    items:
+      - "diamond_sword:1 sharpness:2 unbreaking:2"
+      - "diamond_helmet:1 protection:2 unbreaking:1"
+      - "diamond_chestplate:1 protection:2 unbreaking:1"
+      - "diamond_leggings:1 protection:2 unbreaking:1"
+      - "diamond_boots:1 protection:2 unbreaking:1"
+      - "cooked_beef:32"
+      - "golden_apple:2"
+    permissions: "proleague.kit.guerreiro"
+
+  supremo:
+    display-name: "&cKit Supremo"
+    delay: 86400 # 24 horas
+    items:
+      - "netherite_sword:1 sharpness:5 unbreaking:3 fire_aspect:2"
+      - "netherite_helmet:1 protection:4 unbreaking:3"
+      - "netherite_chestplate:1 protection:4 unbreaking:3"
+      - "netherite_leggings:1 protection:4 unbreaking:3"
+      - "netherite_boots:1 protection:4 unbreaking:3"
+      - "cooked_beef:64"
+      - "golden_apple:10"
+      - "totem_of_undying:1"
+    permissions: "proleague.kit.supremo"

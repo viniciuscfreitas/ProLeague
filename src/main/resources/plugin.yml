@@ -6,7 +6,6 @@ description: Plugin oficial do servidor ProLeagueEssencial.
 website: https://seusite.com
 
 commands:
-  # Comandos Gerais
   ping:
     description: Mostra o ping do jogador.
     usage: /ping [jogador]
@@ -28,16 +27,15 @@ commands:
     permission: proleague.motd
 
   whois:
-    description: Mostra informações detalhadas de um jogador (IP, tempo online, localização).
+    description: Mostra informações detalhadas de um jogador.
     usage: /whois <jogador>
     permission: proleague.admin
 
   seen:
     description: Mostra a última vez que um jogador esteve online.
     usage: /seen <jogador>
-    permission: proleague.utility
+    permission: proleague.admin
 
-  # Sistema de Teleporte
   tp:
     description: Teleporta para um jogador.
     usage: /tp <jogador>
@@ -68,21 +66,40 @@ commands:
     usage: /tpall
     permission: proleague.tpall
 
-  tptoggle:
-    description: Ativa ou desativa pedidos de teleporte para si mesmo.
-    usage: /tptoggle
-    permission: proleague.tptoggle
-
-  # Sistema de Warps e Spawn
   setspawn:
-    description: Define o local de spawn global do servidor.
+    description: Define o spawn global do servidor.
     usage: /setspawn
     permission: proleague.setspawn
 
   spawn:
-    description: Teleporta para o spawn.
+    description: Teleporta para o spawn global.
     usage: /spawn
     permission: proleague.spawn
+
+  sethome:
+    description: Define um ponto de home.
+    usage: /sethome [nome]
+    permission: proleague.home
+
+  home:
+    description: Teleporta para uma home.
+    usage: /home [nome]
+    permission: proleague.home
+
+  delhome:
+    description: Remove uma home.
+    usage: /delhome [nome]
+    permission: proleague.home
+
+  listhomes:
+    description: Lista todas as homes do jogador.
+    usage: /listhomes
+    permission: proleague.listhomes
+
+  back:
+    description: Retorna ao local anterior.
+    usage: /back
+    permission: proleague.back
 
   setwarp:
     description: Define um warp.
@@ -100,11 +117,10 @@ commands:
     permission: proleague.delwarp
 
   warps:
-    description: Lista todas as warps disponíveis.
+    description: Lista todos os warps.
     usage: /warps
-    permission: proleague.warps
+    permission: proleague.warp
 
-  # Comandos Administrativos
   reloadconfig:
     description: Recarrega a configuração do plugin.
     usage: /reloadconfig
@@ -125,70 +141,23 @@ commands:
     usage: /unfreeze <jogador>
     permission: proleague.admin
 
-  clearchat:
-    description: Limpa o chat para todos os jogadores.
-    usage: /clearchat
+  day:
+    description: Define o tempo como dia.
+    usage: /day
     permission: proleague.admin
 
-  # Sistema de Itens e Inventário
-  encantar:
-    description: Encanta o item que você está segurando.
-    usage: /encantar <encantamento> <nível>
-    permission: proleague.encantar
-
-  anvil:
-    description: Abre uma bigorna virtual.
-    usage: /anvil
-    permission: proleague.anvil
-
-  workbench:
-    description: Abre uma bancada de trabalho virtual.
-    usage: /workbench
-    permission: proleague.workbench
-
-  enderchest:
-    description: Abre o baú do Ender.
-    usage: /enderchest [jogador]
-    permission: proleague.enderchest
-
-  invsee:
-    description: Permite visualizar e editar o inventário de um jogador.
-    usage: /invsee <jogador>
-    permission: proleague.invsee
-
-  clearinventory:
-    description: Limpa o inventário de um jogador.
-    usage: /clearinventory [jogador]
-    permission: proleague.clearinventory
-
-  reparar:
-    description: Repara o item na mão ou todo o inventário de um jogador.
-    usage: /reparar [mao|tudo] [jogador]
-    permission: proleague.reparar
-
-  hat:
-    description: Coloca ou remove um item na cabeça.
-    usage: /hat
-    permission: proleague.hat
-
-  # Clima e Tempo
-  day:
-    description: Define o horário do mundo como dia.
-    usage: /day
-    permission: proleague.time
-
   night:
-    description: Define o horário do mundo como noite.
+    description: Define o tempo como noite.
     usage: /night
-    permission: proleague.time
+    permission: proleague.admin
 
   rain:
-    description: Faz chover no servidor.
+    description: Faz chover.
     usage: /rain
     permission: proleague.admin
 
   sun:
-    description: Define o clima como ensolarado.
+    description: Define o tempo como ensolarado.
     usage: /sun
     permission: proleague.admin
 
@@ -197,63 +166,172 @@ commands:
     usage: /thunder
     permission: proleague.admin
 
-  ptime:
-    description: Define o tempo pessoal do jogador.
-    usage: /ptime <dia|noite|reset>
-    permission: proleague.time
-
-  pweather:
-    description: Define o clima pessoal do jogador.
-    usage: /pweather <sol|chuva|reset>
-    permission: proleague.weather
-
-  # Outros Comandos
-  god:
-    description: Ativa ou desativa o modo deus.
-    usage: /god [jogador]
-    permission: proleague.god
+  gm:
+    description: Altera o modo de jogo.
+    usage: /gm <0|1|2>
+    permission: proleague.gm
 
   fly:
-    description: Ativa ou desativa o voo do jogador.
+    description: Ativa ou desativa o modo de voo.
     usage: /fly [jogador]
     permission: proleague.fly
 
+  god:
+    description: Ativa ou desativa o modo god.
+    usage: /god [jogador]
+    permission: proleague.god
+
   heal:
-    description: Cura completamente o jogador.
+    description: Cura o jogador.
     usage: /heal [jogador]
     permission: proleague.heal
 
   speed:
-    description: Define a velocidade do jogador.
+    description: Ajusta a velocidade do jogador.
     usage: /speed <valor> [jogador]
     permission: proleague.speed
 
   sudo:
-    description: Executa um comando como outro jogador.
+    description: Força um jogador a executar um comando.
     usage: /sudo <jogador> <comando>
     permission: proleague.sudo
+
+  info:
+    description: Exibe informações do jogador.
+    usage: /info [jogador]
+    permission: proleague.info
+
+  hat:
+    description: Coloca o item na cabeça do jogador.
+    usage: /hat
+    permission: proleague.hat
 
   feed:
     description: Restaura a fome do jogador.
     usage: /feed [jogador]
     permission: proleague.feed
 
+  anvil:
+    description: Abre a interface da bigorna.
+    usage: /anvil
+    permission: proleague.anvil
+
+  enderchest:
+    description: Abre o enderchest do jogador.
+    usage: /enderchest [jogador]
+    permission: proleague.enderchest
+
+  reparar:
+    description: Repara o item na mão ou no inventário.
+    usage: /reparar [mao|tudo] [jogador]
+    permission: proleague.reparar
+
   broadcast:
-    description: Envia uma mensagem global para todos os jogadores.
+    description: Envia uma mensagem global.
     usage: /broadcast <mensagem>
     permission: proleague.broadcast
 
-  keepinventory:
-    description: Mantém o inventário do jogador ao morrer.
-    usage: /keepinventory [on|off]
-    permission: proleague.keepinventory
+  encantar:
+    description: Encanta o item em mão.
+    usage: /encantar <encantamento> <nível>
+    permission: proleague.encantar
+
+  ext:
+    description: Executa uma ação extra.
+    usage: /ext <parâmetros>
+    permission: proleague.ext
+
+  clearchat:
+    description: Limpa o chat.
+    usage: /clearchat
+    permission: proleague.clearchat
+
+  invsee:
+    description: Visualiza o inventário de um jogador.
+    usage: /invsee <jogador>
+    permission: proleague.invsee
+
+  clearinventory:
+    description: Limpa o inventário de um jogador.
+    usage: /clearinventory [jogador]
+    permission: proleague.clearinventory
 
   keepxp:
-    description: Mantém a experiência do jogador ao morrer.
+    description: Ativa ou desativa a manutenção de XP na morte.
     usage: /keepxp [on|off]
     permission: proleague.keepxp
 
-  realname:
-    description: Exibe o nome real de um jogador caso esteja usando nick.
-    usage: /realname <jogador>
+  keepinventory:
+    description: Ativa ou desativa a manutenção do inventário na morte.
+    usage: /keepinventory [on|off]
+    permission: proleague.keepinventory
+
+  deathpoint:
+    description: Exibe o ponto de morte do jogador.
+    usage: /deathpoint
+    permission: proleague.deathpoint
+
+  nick:
+    description: Define ou remove o nick de um jogador.
+    usage: /nick [jogador] [novo nick]
     permission: proleague.nick
+
+  realname:
+    description: Exibe o nome real do jogador.
+    usage: /realname <jogador>
+    permission: proleague.realname
+
+  kit:
+    description: Gerencia os kits (criar, deletar, dar, pegar ou abrir GUI).
+    usage: /kit [criar|deletar|dar|gui|listar] <nome> [argumentos]
+    aliases: [kits]
+
+permissions:
+  proleague.admin:
+    description: Permissões de administradores do ProLeagueEssencial.
+    default: op
+    children:
+      proleague.tp: true
+      proleague.tphere: true
+      proleague.tpall: true
+      proleague.setspawn: true
+      proleague.setwarp: true
+      proleague.delwarp: true
+      proleague.gm: true
+      proleague.fly: true
+      proleague.god: true
+      proleague.heal: true
+      proleague.speed: true
+      proleague.sudo: true
+      proleague.info: true
+      proleague.hat: true
+      proleague.feed: true
+      proleague.anvil: true
+      proleague.enderchest: true
+      proleague.reparar: true
+      proleague.broadcast: true
+      proleague.encantar: true
+      proleague.ext: true
+      proleague.clearchat: true
+      proleague.invsee: true
+      proleague.clearinventory: true
+      proleague.keepxp: true
+      proleague.keepinventory: true
+      proleague.deathpoint: true
+      proleague.nick: true
+      proleague.realname: true
+
+  proleague.player:
+    description: Permissões básicas para jogadores comuns.
+    default: true
+    children:
+      proleague.spawn: true
+      proleague.warp: true
+      proleague.ping: true
+      proleague.suicide: true
+      proleague.home: true
+      proleague.back: true
+      proleague.tpa: true
+      proleague.tpaccept: true
+      proleague.tpdeny: true
+      proleague.listhomes: true
